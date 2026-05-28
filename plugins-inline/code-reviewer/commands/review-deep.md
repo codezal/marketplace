@@ -1,6 +1,6 @@
 ---
 name: review-deep
-description: Deep code review — multi-agent pipeline + confidence scoring + CLAUDE.md compliance + git history. Auto-detects the current branch's PR; falls back to local branch diff.
+description: Deep code review — multi-agent pipeline + confidence scoring + CLAUDE.md compliance + git history. Auto-detects the current branch's PR; falls back to local branch diff. Supports --threshold N.
 ---
 
 # /review-deep
@@ -13,7 +13,14 @@ When this command is invoked, the following prompt is sent to the model:
 ```
 Call the code-reviewer-deep agent. Argument: $ARGS (may be empty)
 
-Target discovery order:
+The agent parses out a `--threshold N` flag if present (N in 0-100,
+default 80). Examples:
+  /review-deep                    → target auto, threshold 80
+  /review-deep 42                 → PR 42, threshold 80
+  /review-deep 42 --threshold 70  → PR 42, threshold 70
+  /review-deep branch main --threshold 90
+
+Target discovery order (after stripping --threshold):
 1. If $ARGS is a number → that GitHub PR (`gh pr view <num>` + `gh pr diff <num>`)
 2. If $ARGS is "branch <base>" → branch diff (`git diff <base>...HEAD`)
 3. If $ARGS is empty:

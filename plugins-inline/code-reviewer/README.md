@@ -8,7 +8,7 @@ Codezal-native code review plugin. Ships two slash commands:
   posting.
 
 - **Version:** 0.2.0
-- **Author:** Codezal
+- **Author:** Codezal · `https://github.com/codezal`
 - **License:** Apache-2.0
 - **Channel:** codezal-curated (verified)
 - **Permissions:** `filesystem.read`, `git.exec`, `shell.exec`,
@@ -87,6 +87,8 @@ Silence = approval. No praise, no off-diff suggestions.
 /review-deep                    # auto: detect current branch's PR, or fall back to local diff vs main
 /review-deep 42                 # GitHub PR #42
 /review-deep branch main        # branch diff vs main
+/review-deep 42 --threshold 60  # loosen confidence filter
+/review-deep 42 --threshold 90  # stricter confidence filter
 ```
 
 ### Auto-detection order
@@ -98,7 +100,7 @@ Silence = approval. No praise, no off-diff suggestions.
 
 ### Pipeline
 
-1. **Eligibility** — skip closed / draft / automated PRs.
+1. **Eligibility** — skip closed / draft / automated / already-reviewed PRs.
 2. **CLAUDE.md path discovery** — root + every touched directory.
 3. **Summary** — 3-line gist (PR body or diff synthesis).
 4. **Five-perspective review**
@@ -107,7 +109,7 @@ Silence = approval. No praise, no off-diff suggestions.
    - Git blame + history context
    - Previous PR comments on the same files
    - In-file `NOTE` / `WARNING` / `TODO` compliance
-5. **Confidence scoring 0-100** — anything `<80` is dropped.
+5. **Confidence scoring 0-100** — anything `<threshold` is dropped (default 80).
 6. **False-positive guard** — pre-existing, linter-catchable, pedantic
    nits, off-scope, intentionally silenced lines are all suppressed.
 7. **Output** — Markdown with permalinks (full SHA) for PR mode,
@@ -140,6 +142,67 @@ If clean:
 No findings at ≥80 confidence. The diff looks clean.
 ```
 
+## When to use
+
+- All pull requests with meaningful changes.
+- Pre-merge sanity check on a feature branch.
+- Auditing a single file you just touched (`/review <file>`).
+- Pre-handoff review before pushing.
+- Periodic spot-check of a PR you are mentoring.
+
+## When NOT to use
+
+- Closed or draft PRs — automatically skipped by `/review-deep`.
+- Trivial / fully-automated PRs (dependabot, renovate, `[bot]` titles)
+  — automatically skipped.
+- Urgent hotfix needing immediate merge — running the deep pipeline
+  blocks you for ~30s and may surface findings you would defer anyway.
+- PRs already reviewed by this plugin — eligibility check looks for
+  prior comments matching the review header and skips automatically.
+
+## Configuration
+
+### Confidence threshold
+
+Default is `80`. Override per-invocation:
+
+```
+/review-deep --threshold 70
+/review-deep 42 --threshold 90
+```
+
+The threshold filters findings: only items with confidence ≥ threshold
+appear in the final output. Lowering it surfaces more candidates with
+correspondingly more noise.
+
+### Permanent threshold change
+
+Edit `commands/review-deep.md` inside the installed plugin
+(`~/.codezal/plugins/code-reviewer/commands/review-deep.md`). Search for
+`drop anything <80` and change the number. Toggle the plugin **Off → On**
+in Settings → Plugins to reload.
+
+### Customising the review focus
+
+Edit `agents/code-reviewer-deep.md`. The five perspectives (P1–P5) are
+labelled headings; add a P6 or remove any to taste. Reload via the
+toggle.
+
+## Tips
+
+- **Write specific CLAUDE.md files**: clearer rules → tighter compliance
+  findings.
+- **Trust the threshold**: at 80 the noise is low; if you keep seeing
+  false positives, narrow your CLAUDE.md first before lowering the bar.
+- **Use `/review` as the daily driver**: it is fast and free of GitHub
+  side-effects. Reserve `/review-deep` for PRs you are about to ship.
+- **Stage your work first**: `git add -p` then `/review` so you scope to
+  exactly what you intend to commit.
+- **Iterate on CLAUDE.md based on patterns**: if the same review note
+  keeps showing up, codify it.
+- **Approval-gated posting is a feature, not friction**: the prompt
+  before `gh pr comment` is the last chance to redact noise.
+
 ## Disable / uninstall
 
 Settings → Plugins → `code-reviewer` → toggle **Off** to keep installed
@@ -161,3 +224,15 @@ Inline — code lives at
   pass `branch <base>` explicitly.
 - **Review never posts to the PR** — that is by design. The agent asks
   for approval and prints the comment to terminal first; you opt in.
+- **"Already-reviewed" skip is wrong** — the eligibility check looks
+  for the `### Code review` header in prior comments. If a human
+  posted that exact header by hand, the plugin sees it as a prior bot
+  review. Either delete that comment or pass `--force` (planned).
+
+## Author
+
+Codezal · [github.com/codezal](https://github.com/codezal)
+
+## Version
+
+0.2.0 (2026-05)

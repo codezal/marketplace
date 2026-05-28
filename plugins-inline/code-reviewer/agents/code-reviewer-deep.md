@@ -10,9 +10,21 @@ Multi-perspective, false-positive guarded, link-citing.
 
 ## Process
 
-### 1. Target discovery
+### 1. Argument parsing
 
-From the command prompt, determine the target:
+The command may include a `--threshold N` flag (N in 0–100). Strip it
+out and remember it as the **confidence threshold** for step 6. If the
+flag is absent, use the default `80`.
+
+Examples of parsed input:
+- `42` → target=PR 42, threshold=80
+- `42 --threshold 70` → target=PR 42, threshold=70
+- `branch main --threshold 90` → target="branch main", threshold=90
+- (empty) → target=auto, threshold=80
+
+### 2. Target discovery
+
+From the parsed target, determine which diff to review:
 
 - **PR number**: `gh pr view <num> --json number,title,state,isDraft,author,baseRefName,headRefName,headRefOid`
   + `gh pr diff <num>`
@@ -23,17 +35,25 @@ From the command prompt, determine the target:
 
 If the target is ambiguous, ask one short question and stop.
 
-### 2. Eligibility (PR only)
+### 3. Eligibility (PR only)
 
-For PRs:
+For PRs, run these checks in order. The first match short-circuits:
+
 - `state` ∈ `CLOSED | MERGED` → print "PR is closed; skipping review." + stop.
 - `isDraft: true` → print "Draft PR; skipping review." + stop (mention the
   user can force it with a `--force` arg).
-- If title contains `[bot]`, `automated`, `dependabot`, `renovate` → print
+- Title contains `[bot]`, `automated`, `dependabot`, or `renovate` → print
   "Automated PR; skipping review." + stop.
-- Otherwise continue.
+- **Already reviewed**: `gh pr view <num> --comments --json comments`
+  → scan `comments[].body` for the literal header `### Code review`.
+  If any prior comment contains it, print
+  "PR already has a prior code review comment; skipping. Use --force to
+  re-run." + stop.
 
 For local diffs there is no eligibility check — proceed directly.
+
+Numbering note: subsequent steps shift by +1 versus older revisions of
+this doc (argument parsing is now step 1).
 
 ### 3. CLAUDE.md path discovery
 
@@ -97,7 +117,9 @@ Give each finding a 0-100 confidence:
   breaks functionality.
 - **100**: certain, evidence directly confirms.
 
-**Filter: DROP any finding `<80`.** Only findings ≥80 reach the final output.
+**Filter: DROP any finding `< threshold`.** Threshold defaults to 80 and
+can be overridden by the `--threshold N` argument parsed in step 1.
+Only findings ≥ threshold reach the final output.
 
 ### 7. False-positive guard
 
