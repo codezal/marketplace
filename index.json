@@ -17,6 +17,13 @@
       "channel": "codezal-curated",
       "verified": true,
       "manifestPath": "plugins/code-reviewer.json"
+    },
+    {
+      "id": "security-audit@codezal-curated",
+      "name": "security-audit",
+      "channel": "codezal-curated",
+      "verified": true,
+      "manifestPath": "plugins/security-audit.json"
     }
   ]
 }

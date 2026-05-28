@@ -1,0 +1,15 @@
+Codezal Security Audit Plugin
+Copyright 2026 Codezal
+
+This product includes software developed by the Codezal project
+(https://github.com/codezal).
+
+This plugin is an original work of the Codezal project. The vulnerability
+catalogs, patterns, and severity matrices are derived from public
+references including the OWASP Top 10 (Open Worldwide Application
+Security Project, https://owasp.org) and the Common Weakness Enumeration
+(CWE, https://cwe.mitre.org) maintained by The MITRE Corporation.
+
+OWASP and CWE references are cited under fair use for technical
+identification purposes. No content is copied verbatim from those
+projects; entries are independently authored summaries.

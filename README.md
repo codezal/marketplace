@@ -95,3 +95,4 @@ Plugin lives inside this marketplace repo (`plugins-inline/<name>/`).
 |---|---|
 | [codezal-test-plugin](plugins-inline/codezal-test-plugin/) | Reference test plugin proving the plugin system loads correctly. |
 | [code-reviewer](plugins-inline/code-reviewer/) | Codezal-native code review plugin. Quick single-pass `/review` + deep multi-perspective `/review-deep`. |
+| [security-audit](plugins-inline/security-audit/) | Codezal-native security auditor. Fast `/security` scan (CWE + OWASP mapping) + deep `/security-deep` audit (dataflow, history, threat model). Read-only. |
