@@ -1,7 +1,7 @@
 {
   "name": "code-reviewer",
   "version": "0.1.0",
-  "description": "Codezal kod-review eklentisi. Diff/branch/PR/dosya bazında severity-tagged review üretir; praise/scope-creep yok.",
+  "description": "Codezal kod-review eklentisi. Diff/branch/dosya bazında severity-tagged review üretir; praise/scope-creep yok.",
   "channel": "codezal-curated",
   "verified": true,
   "license": "Apache-2.0",
@@ -9,7 +9,6 @@
     "name": "Codezal",
     "url": "https://github.com/codezal"
   },
-  "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/code-reviewer",
   "permissions": [
     "filesystem.read",
     "git.exec",
@@ -19,12 +18,5 @@
   "contributes": {
     "agents": ["agents/*.md"],
     "commands": ["commands/*.md"]
-  },
-  "source": {
-    "type": "inline",
-    "path": "plugins-inline/code-reviewer"
-  },
-  "requires": {
-    "codezalMinVersion": "0.1.0"
   }
 }
