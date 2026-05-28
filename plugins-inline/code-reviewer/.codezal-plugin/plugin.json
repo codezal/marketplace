@@ -1,7 +1,7 @@
 {
   "name": "code-reviewer",
-  "version": "0.1.0",
-  "description": "Codezal kod-review eklentisi. Diff/branch/dosya bazında severity-tagged review üretir; praise/scope-creep yok.",
+  "version": "0.2.0",
+  "description": "Codezal kod-review eklentisi. /review hızlı tek-pass review; /review-deep multi-perspective + confidence scoring + CLAUDE.md compliance + git history + PR yorum post (onaylı).",
   "channel": "codezal-curated",
   "verified": true,
   "license": "Apache-2.0",
@@ -12,6 +12,7 @@
   "permissions": [
     "filesystem.read",
     "git.exec",
+    "shell.exec",
     "agents.register",
     "commands.register"
   ],
