@@ -1,48 +1,53 @@
 ---
 name: review-deep
-description: Derin kod review — multi-agent pipeline + confidence scoring + CLAUDE.md compliance + git history. Mevcut branch'in PR'ı tespit edilir, yoksa local diff'i derin inceler.
+description: Deep code review — multi-agent pipeline + confidence scoring + CLAUDE.md compliance + git history. Auto-detects the current branch's PR; falls back to local branch diff.
 ---
 
 # /review-deep
 
-Derin / multi-agent review pipeline. `/review` tek-pass + hızlıdır; bu komut
-derin, çok-perspektifli, false-positive guard'lı.
+Deep / multi-perspective review pipeline. `/review` is single-pass and fast;
+this command is thorough, multi-angle, false-positive guarded.
 
-Bu komut çağrıldığında modele iletilecek prompt:
+When this command is invoked, the following prompt is sent to the model:
 
 ```
-code-reviewer-deep agent'ını çağır. Argüman: $ARGS (boş olabilir)
+Call the code-reviewer-deep agent. Argument: $ARGS (may be empty)
 
-Hedef tespit sırası:
-1. $ARGS sayıysa → o numaralı GitHub PR (`gh pr view <num>` + `gh pr diff <num>`)
-2. $ARGS "branch <base>" formatındaysa → branch diff (`git diff <base>...HEAD`)
-3. $ARGS boşsa:
-   a. `gh pr view --json number,title,state,isDraft,author` dene → mevcut branch'in PR'ı varsa onu kullan
-   b. Yoksa `gh pr list --head $(git branch --show-current) --json number,title` → sonuç varsa kullan
-   c. Hala yoksa: local branch diff'i kullan (`git merge-base HEAD origin/main` → ondan HEAD'e diff)
-   d. Hiçbiri belirlenemezse kullanıcıya 1 satır sor: "PR numarası veya 'branch <base>' verebilir misin?"
+Target discovery order:
+1. If $ARGS is a number → that GitHub PR (`gh pr view <num>` + `gh pr diff <num>`)
+2. If $ARGS is "branch <base>" → branch diff (`git diff <base>...HEAD`)
+3. If $ARGS is empty:
+   a. Try `gh pr view --json number,title,state,isDraft,author` → if the
+      current branch has a PR, use it
+   b. Else try `gh pr list --head $(git branch --show-current) --json number,title`
+      → use any result
+   c. Else use the local branch diff (`git merge-base HEAD origin/main`,
+      diff from that to HEAD)
+   d. If none of these resolves, ask one short question:
+      "PR number, or 'branch <base>'?"
 
-Pipeline (code-reviewer-deep agent yönetir):
-- Eligibility: PR closed/draft/automated/zaten-review'lı mı? Evet → durdur.
-- Context: kök ve değişen dizinlerin CLAUDE.md yolları (içerik değil, path)
-- Summary: değişikliğin 3 satırlık özeti
-- Multi-perspective review (paralel):
+Pipeline (orchestrated by the code-reviewer-deep agent):
+- Eligibility: skip closed / draft / automated / already-reviewed PRs
+- Context: paths of root + per-directory CLAUDE.md (paths only, not content)
+- Summary: 3-line gist of the change
+- Multi-perspective review (parallel in spirit):
   · CLAUDE.md compliance
-  · Shallow bug scan (sadece diff, scope dışı yok)
-  · Git blame + history bağlamı
-  · Önceki PR yorumları
-  · Kod içi yorumlardaki yönergeler (NOTE/TODO/WARNING)
-- Confidence scoring: her bulgu 0-100, <80 filtrelenir
-- Final çıktı: kısa, link'li, severity-tagged. Code-reviewer formatına uyumlu
-  (path:line + emoji + severity + problem + fix) ama bağlam linkleri ekli.
+  · Shallow bug scan (diff only, no scope creep)
+  · Git blame + history context
+  · Previous PR comments
+  · In-file NOTE/TODO/WARNING compliance
+- Confidence scoring: each finding 0-100, drop anything <80
+- Final output: short, link-citing, severity-tagged. Compatible with
+  the code-reviewer format (path:line + emoji + severity + problem + fix)
+  but with context links added.
 
-Eğer PR ise: review'i `gh pr comment <num> --body "..."` ile post etmeyi
-kullanıcıya teklif et (otomatik post YAPMA — onay iste). Markdown linkleri
-permalink formatında olsun:
+If it is a PR: ASK the user before posting the review via
+`gh pr comment <num> --body "..."`. Never auto-post.
+Use permalinks in the canonical form:
   https://github.com/<owner>/<repo>/blob/<full-sha>/<path>#L<start>-L<end>
 
-Local diff ise: terminal output, post yok.
+If it is a local diff: terminal output only, no posting.
 
-Praise yok. Pre-existing issue'leri rapor etme. Linter/typecheck/test
-hatalarını rapor etme (CI'da yakalanır). Scope dışı bulgu yok.
+No praise. No pre-existing issues. No linter / typecheck / test findings
+(CI catches those). No off-scope advice.
 ```

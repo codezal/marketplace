@@ -1,50 +1,59 @@
 # Codezal Marketplace
 
-Codezal uygulamasının resmi eklenti **index/registry** repo'sudur. Plugin binary'leri burada **host edilmez** — sadece metadata + upstream repo'lara SHA-pin referansı tutulur (npm/pypi/homebrew benzeri).
+Official plugin **index / registry** repository for the Codezal application.
+Plugin binaries are **not hosted here** — only metadata and SHA-pinned
+references to upstream sources (npm / pypi / homebrew pattern).
 
-## Yapı
+## Structure
 
 ```
-index.json            # tüm plugin'lerin master listesi
-plugins/<name>.json   # her plugin için per-plugin manifest (source, attribution, permissions…)
-plugins-inline/       # opsiyonel: bu repo içinde tutulan plugin'ler (Codezal tarafından yazılanlar)
-schemas/              # JSON Schema dosyaları
+index.json            # master list of all plugins
+plugins/<name>.json   # per-plugin manifest (source, attribution, permissions…)
+plugins-inline/       # optional: plugins authored inside this repo (by Codezal)
+schemas/              # JSON Schema files
 ```
 
 ## Channels
 
-- **codezal-curated** — Codezal tarafından doğrulanmış. `verified: true`. Yeşil rozet UI'da.
-- **community** — Topluluk submit'i. `verified: false`. Sarı uyarı UI'da, "kendi sorumluluğunda".
-- **local** — Kullanıcının kendi disk'indeki plugin (geliştirme amaçlı).
+- **codezal-curated** — verified by Codezal. `verified: true`. Green badge in UI.
+- **community** — submitted by third parties. `verified: false`. Yellow warning
+  in UI, "use at your own risk".
+- **local** — plugin on the user's disk (for development).
 
-## Plugin Submit Süreci
+## Plugin Submission Process
 
-1. Bu repo'yu fork et.
-2. Plugin'i upstream bir GitHub repo'da hazır tut (kendi repo'n veya uyumlu lisanslı public repo).
-3. `plugins/<name>.json` oluştur — `source.sha` pin'lenmiş olmalı.
-4. `index.json`'a satır ekle (`channel: "community"`).
-5. PR aç. Codezal maintainer review eder. Curated için `verified: true` ve daha sıkı denetim.
+1. Fork this repo.
+2. Keep your plugin in an upstream GitHub repo (your own, or a compatibly
+   licensed public repo).
+3. Create `plugins/<name>.json` — `source.sha` must be pinned.
+4. Add an entry to `index.json` (`channel: "community"`).
+5. Open a PR. A Codezal maintainer reviews. `verified: true` only after
+   stricter audit, for the curated channel.
 
-### Zorunlu alanlar
+### Required fields
 
 - `name` (kebab-case)
 - `version` (semver)
 - `description`
-- `license` (SPDX id, örn `Apache-2.0`, `MIT`)
+- `license` (SPDX id, e.g. `Apache-2.0`, `MIT`)
 - `author.name`
-- `permissions[]` (boş array olabilir)
-- `source` (`git-subdir` / `git-repo` / `inline` — `sha` pin)
-- `attribution` (upstream kod yeniden paketleniyorsa zorunlu — `originalAuthor`, `originalRepo`, `modified`)
+- `permissions[]` (may be empty array)
+- `source` (`git-subdir` / `git-repo` / `inline` — `sha` pinned)
+- `attribution` (mandatory if repackaging upstream code — `originalAuthor`,
+  `originalRepo`, `modified`)
 
-### Lisans uyumluluğu
+### License compliance
 
-- Apache-2.0 upstream'den paketleniyorsa LICENSE + NOTICE plugin dizininde olmalı.
-- Marka kullanımı YASAK — "Anthropic", "Claude" vb. trademark'lar plugin manifest'inde **sadece attribution metadata alanlarında** geçebilir, plugin adı/branding olarak değil.
+- If repackaging from Apache-2.0 upstream, LICENSE + NOTICE must live inside
+  the plugin directory.
+- Trademark use is FORBIDDEN — names like "Anthropic", "Claude" etc. may
+  appear in plugin manifests **only inside attribution metadata fields**,
+  never as the plugin name or branding.
 
-## Plugin Source Tipleri
+## Plugin Source Types
 
 ### `git-subdir`
-Upstream repo'nun bir alt dizinini plugin olarak kullan. En yaygın.
+Use a subdirectory of an upstream repo as the plugin. Most common.
 ```json
 "source": {
   "type": "git-subdir",
@@ -56,7 +65,7 @@ Upstream repo'nun bir alt dizinini plugin olarak kullan. En yaygın.
 ```
 
 ### `git-repo`
-Tüm upstream repo plugin'in kendisi.
+The entire upstream repo is the plugin.
 ```json
 "source": {
   "type": "git-repo",
@@ -66,13 +75,23 @@ Tüm upstream repo plugin'in kendisi.
 ```
 
 ### `inline`
-Bu marketplace repo'sunun içinde yer alan plugin (`plugins-inline/<name>/`).
+Plugin lives inside this marketplace repo (`plugins-inline/<name>/`).
 ```json
 "source": { "type": "inline", "path": "plugins-inline/my-plugin" }
 ```
 
-## Güvenlik
+## Security
 
-- Her plugin manifest'inde `sha` PIN'LIDIR — upstream branch değişse bile kullanıcının yüklediği sürüm sabit kalır.
-- Update için `sha` güncellenmeli ve client'lar pull edip "Güncelle" butonuyla yeni sürümü kabul etmeli.
-- High-risk permission'lar (`shell.exec`, `mcp.register`, `hooks.register`) install öncesi kullanıcı onay modal'ında kırmızı uyarı tetikler.
+- Every plugin manifest has a PINNED `sha` — even if the upstream branch
+  changes, the version the user installed stays fixed.
+- For updates, the `sha` must be bumped and clients must pull then accept
+  the new version via an "Update" button.
+- High-risk permissions (`shell.exec`, `mcp.register`, `hooks.register`)
+  trigger a red warning in the install approval modal before install.
+
+## Built-in Plugins
+
+| Plugin | Description |
+|---|---|
+| [codezal-test-plugin](plugins-inline/codezal-test-plugin/) | Reference test plugin proving the plugin system loads correctly. |
+| [code-reviewer](plugins-inline/code-reviewer/) | Codezal-native code review plugin. Quick single-pass `/review` + deep multi-perspective `/review-deep`. |

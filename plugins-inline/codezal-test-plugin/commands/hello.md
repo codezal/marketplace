@@ -1,15 +1,16 @@
 ---
 name: hello
-description: Plugin sisteminin yüklendiğini doğrulayan referans slash komut.
+description: Liveness-test slash command proving the plugin system loaded.
 ---
 
 # /hello
 
-Plugin sistemi canlılık-testi.
+Plugin system liveness check.
 
-Bu komut çağrıldığında modele iletilecek prompt:
+When invoked, the following prompt is sent to the model:
 
 ```
-Codezal plugin sistemi aktif. codezal-test-plugin eklentisi başarıyla yüklendi.
-Lütfen kullanıcıya "Plugin sistemi çalışıyor" mesajını döndür.
+The Codezal plugin system is active. The codezal-test-plugin extension
+loaded successfully. Reply to the user with the message:
+"Plugin system is working."
 ```

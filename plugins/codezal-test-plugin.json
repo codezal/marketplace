@@ -1,7 +1,7 @@
 {
   "name": "codezal-test-plugin",
   "version": "0.1.0",
-  "description": "Codezal plugin sistemi için referans test eklentisi. 1 agent + 1 slash komut içerir.",
+  "description": "Reference test plugin for the Codezal plugin system. Ships 1 agent + 1 slash command.",
   "channel": "codezal-curated",
   "verified": true,
   "license": "Apache-2.0",

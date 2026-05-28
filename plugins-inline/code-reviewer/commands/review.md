@@ -1,22 +1,23 @@
 ---
 name: review
-description: Kod review başlat. Argümansız → mevcut diff. Arg "branch <base>" → branch diff. Arg "<PR#>" → GitHub PR. Arg "<file>" → tek dosya.
+description: Start a code review. No arg → current diff. Arg "branch <base>" → branch diff. Arg "<PR#>" → GitHub PR. Arg "<file>" → single file.
 ---
 
 # /review
 
-Kod review agent'ını çağırır.
+Invokes the code-review agent.
 
-Bu komut çağrıldığında modele iletilecek prompt:
+When this command is invoked, the following prompt is sent to the model:
 
 ```
-code-reviewer agent'ını çağır. Hedef: $ARGS
+Call the code-reviewer agent. Target: $ARGS
 
-Hedef boşsa: mevcut çalışma ağacındaki diff'i review et (`git diff` ve `git diff --staged`).
-"branch <base>" formatındaysa: `git diff <base>...HEAD` review et.
-Sadece sayıysa (PR numarası): `gh pr view <num>` + `gh pr diff <num>` üzerinden review et.
-Dosya yolu ise: o dosyanın TAMAMINI review et (diff yok).
+If the target is empty: review the current working tree diff
+(`git diff` and `git diff --staged`).
+If it is in the form "branch <base>": review `git diff <base>...HEAD`.
+If it is a bare number (PR id): review via `gh pr view <num>` + `gh pr diff <num>`.
+If it is a file path: review the ENTIRE file (no diff).
 
-code-reviewer agent'ının formatına sadık kal: path:line satırları + sondaki rollup.
-Praise / scope-creep / refactor önerisi yok.
+Stay faithful to the code-reviewer format: path:line lines + the final rollup.
+No praise, no scope creep, no refactor suggestions.
 ```
