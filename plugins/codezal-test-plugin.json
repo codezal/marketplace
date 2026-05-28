@@ -1,0 +1,28 @@
+{
+  "name": "codezal-test-plugin",
+  "version": "0.1.0",
+  "description": "Codezal plugin sistemi için referans test eklentisi. 1 agent + 1 slash komut içerir.",
+  "channel": "codezal-curated",
+  "verified": true,
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Codezal",
+    "url": "https://github.com/codezal"
+  },
+  "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/codezal-test-plugin",
+  "permissions": [
+    "agents.register",
+    "commands.register"
+  ],
+  "contributes": {
+    "agents": ["agents/*.md"],
+    "commands": ["commands/*.md"]
+  },
+  "source": {
+    "type": "inline",
+    "path": "plugins-inline/codezal-test-plugin"
+  },
+  "requires": {
+    "codezalMinVersion": "0.1.0"
+  }
+}

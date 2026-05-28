@@ -1,0 +1,20 @@
+{
+  "name": "codezal-test-plugin",
+  "version": "0.1.0",
+  "description": "Codezal plugin sistemi referans test eklentisi.",
+  "channel": "codezal-curated",
+  "verified": true,
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Codezal",
+    "url": "https://github.com/codezal"
+  },
+  "permissions": [
+    "agents.register",
+    "commands.register"
+  ],
+  "contributes": {
+    "agents": ["agents/*.md"],
+    "commands": ["commands/*.md"]
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/codezal/marketplace/raw/main/schemas/marketplace.schema.json",
+  "title": "Codezal Marketplace Index",
+  "description": "Codezal marketplace repo'sunun kök index.json dosyası şeması.",
+  "type": "object",
+  "required": ["version", "name", "plugins"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Schema sürümü."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Marketplace görünen adı."
+    },
+    "description": {
+      "type": "string"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp."
+    },
+    "plugins": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/pluginEntry" }
+    }
+  },
+  "definitions": {
+    "pluginEntry": {
+      "type": "object",
+      "required": ["id", "name", "channel", "verified", "manifestPath"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*@(codezal-curated|community|local)$",
+          "description": "name@channel formatında benzersiz id."
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "description": "kebab-case plugin adı."
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["codezal-curated", "community", "local"]
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "true sadece codezal-curated kanalında."
+        },
+        "manifestPath": {
+          "type": "string",
+          "pattern": "^plugins/[a-z0-9][a-z0-9-]*\\.json$",
+          "description": "Per-plugin manifest dosyasına relative yol."
+        }
+      }
+    }
+  }
+}

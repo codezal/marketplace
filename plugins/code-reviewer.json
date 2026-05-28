@@ -1,0 +1,39 @@
+{
+  "name": "code-reviewer",
+  "version": "1.0.0",
+  "description": "Kod review agent'i — Anthropic tarafından yayınlanan referans plugin'ten paketlenmiştir.",
+  "channel": "codezal-curated",
+  "verified": true,
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Anthropic",
+    "url": "https://github.com/anthropics"
+  },
+  "upstream": "https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-review",
+  "attribution": {
+    "originalAuthor": "Anthropic",
+    "originalRepo": "https://github.com/anthropics/claude-plugins-official",
+    "modified": false,
+    "notice": "Apache-2.0 lisanslı upstream'den paketlenmiştir. LICENSE + NOTICE install sırasında ~/.codezal/plugins/code-reviewer/ altına kopyalanır. 'Anthropic' ismi yalnızca attribution amacıyla kullanılır, ürün markası olarak değil."
+  },
+  "permissions": [
+    "filesystem.read",
+    "git.exec",
+    "agents.register",
+    "commands.register"
+  ],
+  "contributes": {
+    "agents": ["agents/*.md"],
+    "commands": ["commands/*.md"]
+  },
+  "source": {
+    "type": "git-subdir",
+    "repo": "anthropics/claude-plugins-official",
+    "path": "plugins/code-review",
+    "sha": "b8ad3cc6c1e40b2d2a944f900a4ae0904a54dd7f",
+    "ref": "main"
+  },
+  "requires": {
+    "codezalMinVersion": "0.1.0"
+  }
+}

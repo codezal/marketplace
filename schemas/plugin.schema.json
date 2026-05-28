@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/codezal/marketplace/raw/main/schemas/plugin.schema.json",
+  "title": "Codezal Plugin Manifest",
+  "description": "Marketplace plugins/<name>.json manifest şeması.",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "description",
+    "channel",
+    "verified",
+    "license",
+    "author",
+    "permissions",
+    "contributes",
+    "source"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "description": "kebab-case plugin adı."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[A-Za-z0-9.-]+)?(\\+[A-Za-z0-9.-]+)?$",
+      "description": "Semver."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["codezal-curated", "community", "local"]
+    },
+    "verified": {
+      "type": "boolean"
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX lisans id (örn. Apache-2.0, MIT, BSD-3-Clause)."
+    },
+    "author": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "email": { "type": "string", "format": "email" },
+        "url": { "type": "string", "format": "uri" }
+      }
+    },
+    "upstream": {
+      "type": "string",
+      "format": "uri",
+      "description": "Upstream repo / kaynak URL."
+    },
+    "attribution": {
+      "type": "object",
+      "required": ["originalAuthor", "originalRepo", "modified"],
+      "properties": {
+        "originalAuthor": { "type": "string" },
+        "originalRepo": { "type": "string", "format": "uri" },
+        "modified": { "type": "boolean" },
+        "notice": { "type": "string" }
+      },
+      "description": "Upstream kod yeniden paketleniyorsa zorunlu."
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "filesystem.read",
+          "filesystem.write",
+          "shell.exec",
+          "git.exec",
+          "network.fetch",
+          "agents.register",
+          "commands.register",
+          "skills.register",
+          "mcp.register",
+          "hooks.register",
+          "providers.register"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "contributes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "agents": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "skills": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "commands": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "mcps": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "hooks": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "providers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["entry"],
+            "properties": { "entry": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "source": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type", "repo", "path", "sha"],
+          "properties": {
+            "type": { "const": "git-subdir" },
+            "repo": {
+              "type": "string",
+              "pattern": "^[^/]+/[^/]+$",
+              "description": "owner/repo formatında GitHub repo."
+            },
+            "path": { "type": "string", "minLength": 1 },
+            "sha": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$",
+              "description": "Tam 40 karakterli commit SHA (PIN'li)."
+            },
+            "ref": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["type", "repo", "sha"],
+          "properties": {
+            "type": { "const": "git-repo" },
+            "repo": { "type": "string", "pattern": "^[^/]+/[^/]+$" },
+            "sha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+            "ref": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["type", "path"],
+          "properties": {
+            "type": { "const": "inline" },
+            "path": {
+              "type": "string",
+              "pattern": "^plugins-inline/[a-z0-9][a-z0-9-]*$"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "requires": {
+      "type": "object",
+      "properties": {
+        "codezalMinVersion": { "type": "string" }
+      }
+    }
+  }
+}

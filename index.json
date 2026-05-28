@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "Codezal Marketplace",
+  "description": "Codezal eklenti index/registry'si — plugin binary host etmez, upstream repo'lara SHA-pin'li referans.",
+  "updatedAt": "2026-05-28T00:00:00Z",
+  "plugins": [
+    {
+      "id": "codezal-test-plugin@codezal-curated",
+      "name": "codezal-test-plugin",
+      "channel": "codezal-curated",
+      "verified": true,
+      "manifestPath": "plugins/codezal-test-plugin.json"
+    },
+    {
+      "id": "code-reviewer@codezal-curated",
+      "name": "code-reviewer",
+      "channel": "codezal-curated",
+      "verified": true,
+      "manifestPath": "plugins/code-reviewer.json"
+    }
+  ]
+}
