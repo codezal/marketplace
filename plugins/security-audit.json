@@ -17,8 +17,12 @@
     "commands.register"
   ],
   "contributes": {
-    "agents": ["agents/*.md"],
-    "commands": ["commands/*.md"]
+    "agents": [
+      "agents/*.md"
+    ],
+    "commands": [
+      "commands/*.md"
+    ]
   },
   "source": {
     "type": "inline",
@@ -26,5 +30,6 @@
   },
   "requires": {
     "codezalMinVersion": "0.1.0"
-  }
+  },
+  "signature": "r10hlgRDW+FNOjAXb+DeBciX9L3HoEbESwR9z1jAZ7N+BiRv785mUcIcYWXS5mlcfBK0O6ISm0FKW1wkpgLdAQ=="
 }

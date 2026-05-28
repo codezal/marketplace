@@ -1,0 +1,4 @@
+# Signing keys — the private key NEVER enters the repo. Only the public key is
+# embedded in the Codezal app (src/lib/plugins/signing.ts).
+.keys/
+node_modules/

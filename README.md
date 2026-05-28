@@ -83,11 +83,60 @@ Plugin lives inside this marketplace repo (`plugins-inline/<name>/`).
 ## Security
 
 - Every plugin manifest has a PINNED `sha` — even if the upstream branch
-  changes, the version the user installed stays fixed.
+  changes, the version the user installed stays fixed. The app re-checks the
+  resolved `HEAD` against the manifest `sha` after checkout and aborts on
+  mismatch (TOCTOU guard).
 - For updates, the `sha` must be bumped and clients must pull then accept
   the new version via an "Update" button.
 - High-risk permissions (`shell.exec`, `mcp.register`, `hooks.register`)
   trigger a red warning in the install approval modal before install.
+  Dangerous permission **combinations** (e.g. `network.fetch` +
+  `providers.register`, `shell.exec` + `network.fetch`) raise dedicated
+  exfiltration / RCE warnings.
+- MCP `stdio` commands and hook commands are validated: shell metacharacters,
+  path traversal, and destructive patterns (`rm -rf /`, `curl | sh`, …) are
+  rejected before registration.
+
+### Network egress allowlist
+
+A plugin requesting `network.fetch` should declare the hosts it may reach.
+The app shows these at install and enforces them on the plugin's `fetch` and on
+any `http`/`sse` MCP endpoints it registers.
+
+```json
+"permissions": ["network.fetch"],
+"network": { "allowedHosts": ["api.openai.com", "*.anthropic.com"] }
+```
+
+- Exact host, `*.suffix` (apex + subdomains), or `*` (all — discouraged, raised
+  as a loud warning).
+- Absent / empty `allowedHosts` = deny all (fail-closed).
+
+### Manifest signing (Ed25519)
+
+Curated manifests are signed so a compromised marketplace cannot rewrite
+`source.sha`, `permissions`, or `network.allowedHosts`. The app embeds the
+Codezal public key and verifies the signature for the `codezal-curated`
+channel; an invalid signature **blocks** install.
+
+```bash
+npm run keygen          # one-time: generate .keys/ keypair (gitignored)
+npm run sign:all        # sign every curated manifest
+npm run verify:all      # verify all signatures
+```
+
+The **private key never enters the repo** (`.keys/` is gitignored). Only the
+public key is embedded in the app (`src/lib/plugins/signing.ts`). Rotating the
+key invalidates every prior signature — re-sign afterward. The canonical form
+signed is the manifest JSON with sorted keys and the `signature` field removed;
+the app's `canonicalManifest()` must match `scripts/lib/canonical.mjs`
+byte-for-byte.
+
+### Audit log
+
+The app keeps an append-only JSON-lines audit log at `~/.codezal/audit.log`
+recording install / uninstall / enable / disable, permission denials, network
+denials, and signature results — viewable under Settings → Plugins.
 
 ## Built-in Plugins
 

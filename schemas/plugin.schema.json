@@ -88,6 +88,23 @@
       },
       "uniqueItems": true
     },
+    "network": {
+      "type": "object",
+      "required": ["allowedHosts"],
+      "additionalProperties": false,
+      "properties": {
+        "allowedHosts": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Egress allowlist for network.fetch. Exact host, *.suffix wildcard, or * (all). Empty/absent = deny all."
+        }
+      },
+      "description": "Network egress allowlist. Only meaningful with the network.fetch permission."
+    },
+    "signature": {
+      "type": "string",
+      "description": "Ed25519 signature (base64) over the canonical manifest. Verified by the app for codezal-curated channel. Produced by scripts/sign-plugin.mjs."
+    },
     "contributes": {
       "type": "object",
       "additionalProperties": false,
