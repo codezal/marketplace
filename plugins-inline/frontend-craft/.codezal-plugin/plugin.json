@@ -8,12 +8,6 @@
     "url": "https://github.com/codezal"
   },
   "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/frontend-craft",
-  "attribution": {
-    "originalAuthor": "Anthropic",
-    "originalRepo": "https://github.com/anthropics/claude-code",
-    "modified": true,
-    "notice": "Inspired by the Anthropic frontend-design plugin from the claude-code official plugins marketplace. Reworked and repackaged as a Codezal-native plugin."
-  },
   "permissions": [
     "filesystem.read",
     "filesystem.write",

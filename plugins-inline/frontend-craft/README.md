@@ -1,6 +1,6 @@
 # frontend-craft
 
-Build **distinctive, production-grade** frontend interfaces — and keep them accessible, responsive, and fast. A Codezal-native plugin that helps Claude produce UI that looks intentionally designed instead of auto-generated, then holds the result to an explicit quality rubric.
+Build **distinctive, production-grade** frontend interfaces — and keep them accessible, responsive, and fast. A Codezal-native plugin that helps the assistant produce UI that looks intentionally designed instead of auto-generated, then holds the result to an explicit quality rubric.
 
 ## Why it exists
 
@@ -27,7 +27,7 @@ Most AI-generated UI converges on the same look: Inter font, a purple gradient o
 
 ## How it's "better" than a plain design skill
 
-A typical frontend-design skill is a single passive prompt. `frontend-craft` adds:
+A typical design skill is a single passive prompt. `frontend-craft` adds:
 
 1. **Actionable entry points** — three slash commands and a delegating agent, not just ambient guidance.
 2. **A token-first workflow** — structure, not just taste.

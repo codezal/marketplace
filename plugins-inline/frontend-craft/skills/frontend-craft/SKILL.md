@@ -85,4 +85,4 @@ Run the build against `references/anti-slop.md`. Be honest. If any line fails, f
 
 ---
 
-Claude is capable of extraordinary creative work. Don't hold back — commit fully to a distinctive vision, then make it accessible, responsive, and fast. That combination is what "better than generic" means.
+You are capable of extraordinary creative work. Don't hold back — commit fully to a distinctive vision, then make it accessible, responsive, and fast. That combination is what "better than generic" means.
