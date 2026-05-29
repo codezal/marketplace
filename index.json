@@ -24,6 +24,13 @@
       "channel": "codezal-curated",
       "verified": true,
       "manifestPath": "plugins/security-audit.json"
+    },
+    {
+      "id": "frontend-craft@codezal-curated",
+      "name": "frontend-craft",
+      "channel": "codezal-curated",
+      "verified": true,
+      "manifestPath": "plugins/frontend-craft.json"
     }
   ]
 }

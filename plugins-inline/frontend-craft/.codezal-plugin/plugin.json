@@ -1,0 +1,33 @@
+{
+  "name": "frontend-craft",
+  "version": "0.1.0",
+  "description": "Codezal-native frontend design plugin. Builds distinctive, production-grade UI that avoids generic AI aesthetics, with accessibility, responsiveness, performance, and a self-review rubric baked in. /ui builds from a brief, /redesign elevates existing UI, /design-review critiques against the rubric.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Codezal",
+    "url": "https://github.com/codezal"
+  },
+  "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/frontend-craft",
+  "attribution": {
+    "originalAuthor": "Anthropic",
+    "originalRepo": "https://github.com/anthropics/claude-code",
+    "modified": true,
+    "notice": "Inspired by the Anthropic frontend-design plugin from the claude-code official plugins marketplace. Reworked and repackaged as a Codezal-native plugin."
+  },
+  "permissions": [
+    "filesystem.read",
+    "filesystem.write",
+    "shell.exec",
+    "agents.register",
+    "commands.register",
+    "skills.register"
+  ],
+  "contributes": {
+    "agents": ["agents/*.md"],
+    "commands": ["commands/*.md"],
+    "skills": ["skills/*/SKILL.md"]
+  },
+  "requires": {
+    "codezalMinVersion": "0.1.0"
+  }
+}
