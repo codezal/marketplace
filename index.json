@@ -5,13 +5,6 @@
   "updatedAt": "2026-05-31T00:00:00Z",
   "plugins": [
     {
-      "id": "codezal-test-plugin@codezal-curated",
-      "name": "codezal-test-plugin",
-      "channel": "codezal-curated",
-      "verified": true,
-      "manifestPath": "plugins/codezal-test-plugin.json"
-    },
-    {
       "id": "code-reviewer@codezal-curated",
       "name": "code-reviewer",
       "channel": "codezal-curated",
