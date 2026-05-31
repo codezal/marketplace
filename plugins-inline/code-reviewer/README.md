@@ -229,20 +229,10 @@ Inline — code lives at
   posted that exact header by hand, the plugin sees it as a prior bot
   review. Either delete that comment or pass `--force` (planned).
 
-## Proactive hook (opt-in)
-
-A `PostToolUse` hook fires after `Write`/`Edit`/`MultiEdit`. It is **silent by default** and only ever *suggests* running `/review` — it never reads, reviews, or modifies your code. Enable it for a session:
-
-```bash
-export CODE_REVIEWER_AUTO=1
-```
-
-With it unset (the default), the plugin is purely command-driven.
-
 ## Author
 
 Codezal · [github.com/codezal](https://github.com/codezal)
 
 ## Version
 
-0.3.0 (2026-05)
+0.2.1 (2026-05)

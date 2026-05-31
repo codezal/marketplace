@@ -1,7 +1,7 @@
 {
   "name": "security-audit",
-  "version": "0.2.0",
-  "description": "Codezal-native security auditor. Scans code for OWASP Top 10 / CWE vulnerabilities, secrets, and crypto weaknesses across TS/JS, Python, Ruby, Go, Rust, PHP. Opt-in proactive hook suggests a scan after edits.",
+  "version": "0.1.0",
+  "description": "Codezal-native security auditor. Scans code for OWASP Top 10 / CWE vulnerabilities, secrets, and crypto weaknesses across TS/JS, Python, Ruby, Go, Rust, PHP.",
   "license": "Apache-2.0",
   "author": {
     "name": "Codezal",
@@ -12,13 +12,11 @@
     "filesystem.read",
     "git.exec",
     "agents.register",
-    "commands.register",
-    "hooks.register"
+    "commands.register"
   ],
   "contributes": {
     "agents": ["agents/*.md"],
-    "commands": ["commands/*.md"],
-    "hooks": [{ "source": "hooks/hooks.json" }]
+    "commands": ["commands/*.md"]
   },
   "requires": {
     "codezalMinVersion": "0.1.0"

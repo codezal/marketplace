@@ -18,7 +18,6 @@ The usual "simplify my code" agent has three weak spots: it **hardcodes one stac
 | Command | `/refine-deep [target]` | Multi-lens refactor behind a **verification gate**. |
 | Agent | `code-refiner` | Fast subagent: detects conventions, applies safe moves, reports. |
 | Agent | `code-refiner-deep` | Refactoring subagent: baselines checks, refines, re-verifies, reverts regressions. |
-| Hook | `PostToolUse` (opt-in) | After edits, *suggests* `/refine` — never rewrites. Off by default. |
 | References | `references/*.md` | The move taxonomy, the clarity guardrails, the verification protocol. |
 
 ### Reference packs
@@ -36,23 +35,13 @@ The usual "simplify my code" agent has three weak spots: it **hardcodes one stac
 /refine-deep                 # same targets, deep + verified
 ```
 
-## The proactive hook (opt-in)
-
-A `PostToolUse` hook fires after `Write`/`Edit`/`MultiEdit`. It is **silent by default** and only ever *suggests* running `/refine` — it never reads or modifies your code. Enable it for a session by exporting:
-
-```bash
-export CODE_REFINER_AUTO=1
-```
-
-With it unset (the default), the plugin is purely command-driven.
-
 ## How it's "better" than a plain simplifier agent
 
 1. **Works in any codebase** — convention detection instead of one hardcoded stack.
 2. **A safety contract** — SAFE/REVIEW tiers mean the fast pass can't change behavior, and the deep pass must *prove* it didn't.
 3. **A verification gate** — tests/typecheck run before and after; regressions are auto-reverted; green-to-green or it doesn't ship.
 4. **Honest reporting** — it states what it verified and admits what it couldn't, so you never get a false guarantee.
-5. **Two clear entry points + an opt-in nudge** — fast vs deep on demand, plus a safe proactive channel — not silent ambient rewriting.
+5. **Two clear entry points** — fast vs deep, explicitly invoked on demand — not silent ambient rewriting.
 
 ## Permissions
 

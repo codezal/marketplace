@@ -1,7 +1,7 @@
 {
   "name": "code-reviewer",
-  "version": "0.3.0",
-  "description": "Codezal code-review plugin. /review is a quick single-pass review; /review-deep is a multi-perspective audit with confidence scoring, CLAUDE.md compliance, git history, and (optional) PR comment posting. Opt-in proactive hook suggests a review after edits.",
+  "version": "0.2.1",
+  "description": "Codezal code-review plugin. /review is a quick single-pass review; /review-deep is a multi-perspective audit with confidence scoring, CLAUDE.md compliance, git history, and (optional) PR comment posting.",
   "channel": "codezal-curated",
   "verified": true,
   "license": "Apache-2.0",
@@ -15,8 +15,7 @@
     "git.exec",
     "shell.exec",
     "agents.register",
-    "commands.register",
-    "hooks.register"
+    "commands.register"
   ],
   "contributes": {
     "agents": [
@@ -24,11 +23,6 @@
     ],
     "commands": [
       "commands/*.md"
-    ],
-    "hooks": [
-      {
-        "source": "hooks/hooks.json"
-      }
     ]
   },
   "source": {
@@ -38,5 +32,5 @@
   "requires": {
     "codezalMinVersion": "0.1.0"
   },
-  "signature": "JzIlavkxoto7sOTqT2lgJE/BBJ8NW8fW/LAMqN5nw7rLUhMBPOk2acWIZ+Jozl5OV8wq84+OxE6wGXOSKAWcBg=="
+  "signature": "w4oLRyowGqFnQhaKYpStuGbLewdP8rkRAm6curFVPhCWh0QFOghRttgRBSjrQXbiQhCVx1P2XWpzuKShpX4eDA=="
 }

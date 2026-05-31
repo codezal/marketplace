@@ -5,17 +5,16 @@ This product includes software developed by Codezal
 (https://github.com/codezal).
 
 This plugin is an original work of Codezal. All content — the slash
-commands, the code-refiner and code-refiner-deep agents, the hook script,
-and every file under references/ — is original material authored for
-Codezal. No third-party source code, skill text, or assets are included
-or repackaged.
+commands, the code-refiner and code-refiner-deep agents, and every file
+under references/ — is original material authored for Codezal. No
+third-party source code, skill text, or assets are included or repackaged.
 
 The general idea of an assistant-driven code-simplification agent is a
 common one in the ecosystem (e.g. Anthropic's "code-simplifier"). This
 plugin is an independent, clean-room implementation with a different
 design: safety-tiered moves, project-agnostic convention detection,
-verified behavior preservation, explicit scope control, and an opt-in
-proactive hook. No upstream code or prose was copied.
+verified behavior preservation, and explicit scope control. No upstream
+code or prose was copied.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may
 not use this plugin except in compliance with the License. A copy of the

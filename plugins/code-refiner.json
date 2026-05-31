@@ -1,7 +1,7 @@
 {
   "name": "code-refiner",
   "version": "0.1.0",
-  "description": "Codezal-native code simplification plugin. Refines recently changed code for clarity and maintainability while preserving behavior — verified, not assumed. /refine is a fast safe-only pass; /refine-deep is a multi-lens audit that proves behavior is unchanged via tests/typecheck before & after. Project-agnostic: detects your conventions instead of hardcoding them. Opt-in proactive hook included.",
+  "description": "Codezal-native code simplification plugin. Refines recently changed code for clarity and maintainability while preserving behavior — verified, not assumed. /refine is a fast safe-only pass; /refine-deep is a multi-lens audit that proves behavior is unchanged via tests/typecheck before & after. Project-agnostic: detects your conventions instead of hardcoding them.",
   "channel": "codezal-curated",
   "verified": true,
   "license": "Apache-2.0",
@@ -16,8 +16,7 @@
     "shell.exec",
     "git.exec",
     "agents.register",
-    "commands.register",
-    "hooks.register"
+    "commands.register"
   ],
   "contributes": {
     "agents": [
@@ -25,11 +24,6 @@
     ],
     "commands": [
       "commands/*.md"
-    ],
-    "hooks": [
-      {
-        "source": "hooks/hooks.json"
-      }
     ]
   },
   "source": {
@@ -39,5 +33,5 @@
   "requires": {
     "codezalMinVersion": "0.1.0"
   },
-  "signature": "vKVkPP/A+JJCUSIs9PTZc9V2UrwEtn4l8zBkYneSMNfrRPrlUYvNxmaB0rUQ6MRdBUr4dg4K51cOcto4br55CQ=="
+  "signature": "yFVoJv8TSXmaxBkX9hQg4nFyyvJyH1qtcDHUuhEryVVtsplPK0GF38hGeL11+xAEYnb06FSnFbTwXe9/XHPTDQ=="
 }
