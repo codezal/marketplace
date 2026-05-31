@@ -157,13 +157,23 @@ To keep signal-to-noise high:
 | Critical finding suppressed by silencer the auditor disagrees with. | The silencer reason is weak. | Either strengthen the reason or remove the silencer; the auditor will re-flag. |
 | `gh pr view` fails. | Not authenticated. | `gh auth login`. |
 
+## Proactive hook (opt-in)
+
+A `PostToolUse` hook fires after `Write`/`Edit`/`MultiEdit`. It is **silent by default** and only ever *suggests* running `/security` — consistent with the plugin's read-only stance, it never reads, scans, or modifies your code. Enable it for a session:
+
+```bash
+export SECURITY_AUDIT_AUTO=1
+```
+
+With it unset (the default), the plugin is purely command-driven.
+
 ## Author
 
 Codezal — `https://github.com/codezal`
 
 ## Version
 
-`0.1.0`
+`0.2.0`
 
 ## License
 

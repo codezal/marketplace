@@ -1,7 +1,7 @@
 {
   "name": "security-audit",
-  "version": "0.1.0",
-  "description": "Codezal-native security auditor. /security is a fast pattern-based scan with CWE + OWASP mapping; /security-deep is a multi-perspective audit with dataflow, git history, and threat model. Read-only.",
+  "version": "0.2.0",
+  "description": "Codezal-native security auditor. /security is a fast pattern-based scan with CWE + OWASP mapping; /security-deep is a multi-perspective audit with dataflow, git history, and threat model. Opt-in proactive hook suggests a scan after edits. Read-only.",
   "channel": "codezal-curated",
   "verified": true,
   "license": "Apache-2.0",
@@ -14,7 +14,8 @@
     "filesystem.read",
     "git.exec",
     "agents.register",
-    "commands.register"
+    "commands.register",
+    "hooks.register"
   ],
   "contributes": {
     "agents": [
@@ -22,6 +23,11 @@
     ],
     "commands": [
       "commands/*.md"
+    ],
+    "hooks": [
+      {
+        "source": "hooks/hooks.json"
+      }
     ]
   },
   "source": {
@@ -31,5 +37,5 @@
   "requires": {
     "codezalMinVersion": "0.1.0"
   },
-  "signature": "r10hlgRDW+FNOjAXb+DeBciX9L3HoEbESwR9z1jAZ7N+BiRv785mUcIcYWXS5mlcfBK0O6ISm0FKW1wkpgLdAQ=="
+  "signature": "h63+6ieIOzY5fLnyBjJgxDfzbBaOAgT5OuhqHWRPeokd/75DH64A13bVusmRWpP8AXKUme4c/zHJpO4bJ4gpCg=="
 }
