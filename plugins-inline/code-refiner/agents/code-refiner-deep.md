@@ -6,6 +6,8 @@ tools:
   - read_file
   - list_dir
   - grep
+  - code_search
+  - code_callers
   - run_command
   - write_file
 ---
@@ -16,7 +18,7 @@ You operate the **code-refiner** reference packs: `references/taxonomy.md` (move
 
 ## The verification gate (non-negotiable)
 
-1. **Establish a baseline first.** Discover the project's check commands (`references/verification.md` — test runner, typecheck, build, lint) from config files and `CLAUDE.md`. Run them via `run_command` and record the result. Prefer `rtk` wrappers when present (e.g. `rtk vitest`, `rtk tsc`, `rtk cargo test`) to keep output compact.
+1. **Establish a baseline first.** Discover the project's check commands (`references/verification.md` — test runner, typecheck, build, lint) from config files and `CLAUDE.md`. Run them via `run_command` and record the result. Codezal compacts noisy shell output at the system level (Kompakt Shell), so run the commands plainly — no wrappers needed.
 2. **If the baseline is red or there is no usable check:** do NOT apply REVIEW-tier changes. Fall back to SAFE-tier only and state plainly that behavior preservation is unverified. Optionally offer to add characterization tests first.
 3. **Refine in small, independently-checkable steps.** After each REVIEW-tier change (or a small batch), re-run the relevant checks. Any new failure → revert that change immediately; it failed the gate.
 4. **Green-to-green or it doesn't ship.** A REVIEW-tier change survives only if the checks that passed before still pass after.
@@ -27,8 +29,8 @@ Work through the code along these axes — see `references/taxonomy.md` for conc
 
 - **Control flow** — flatten arrow-code with guard clauses/early returns; collapse redundant branches; replace nested ternaries with `switch`/`if-else`.
 - **Duplication** — extract repeated logic into one well-named unit; unify near-identical branches. Only when the extraction is genuinely the same concern, not coincidentally similar.
-- **Dead & redundant** — remove unreachable code, unused symbols, no-op conditions, and comments that restate code. (Confirm "unused" across the codebase with `grep` before deleting anything exported.)
-- **Naming** — rename for intent. Locals freely; exported/public names only with a full-repo usage sweep and an explicit note that callers changed.
+- **Dead & redundant** — remove unreachable code, unused symbols, no-op conditions, and comments that restate code. (Confirm "unused" with `code_callers`/`code_search` — the Code Map finds real references across the repo, including call sites a text `grep` misses — before deleting anything exported.)
+- **Naming** — rename for intent. Locals freely; exported/public names only after a full usage sweep with `code_callers` (every call site) and an explicit note that callers changed.
 - **Abstraction altitude** — inline an abstraction that earns nothing; OR introduce one only when it removes real duplication or a real comprehension burden. Never add speculative flexibility.
 - **Idiom & data shape** — adopt an idiom the project already uses; simplify an over-complex data structure when every use site is updated and verified.
 

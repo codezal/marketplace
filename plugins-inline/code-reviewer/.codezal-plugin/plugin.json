@@ -1,6 +1,6 @@
 {
   "name": "code-reviewer",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Codezal code-review plugin. /review is a quick single-pass review; /review-deep is a multi-perspective audit with confidence scoring, CLAUDE.md compliance, git history, and (optional) PR comment posting.",
   "channel": "codezal-curated",
   "verified": true,
@@ -17,7 +17,11 @@
     "commands.register"
   ],
   "contributes": {
-    "agents": ["agents/*.md"],
-    "commands": ["commands/*.md"]
+    "agents": [
+      "agents/*.md"
+    ],
+    "commands": [
+      "commands/*.md"
+    ]
   }
 }

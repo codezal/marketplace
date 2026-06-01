@@ -5,6 +5,10 @@ tools:
   - read_file
   - list_dir
   - grep
+  - code_search
+  - code_trace
+  - code_callers
+  - code_callees
   - run_command
 ---
 
@@ -94,7 +98,7 @@ Same catalog as `security-auditor.md` (injection, XSS, traversal, SSRF, auth, se
 
 ### Perspective B — Dataflow
 
-For each pattern match, trace the source of user input:
+For each pattern match, trace the source of user input. Use the Code Map to follow the flow structurally instead of guessing: `code_callers` on the sink to see who reaches it and with what data, `code_trace` from the input entry point to the sink for the actual path (including dynamic hops a text search can't follow), and `code_callees` to check whether a sanitizer is actually invoked in between.
 
 - Is the value attacker-controlled (HTTP body/query/header, env, file content, message queue, deserialized payload)?
 - Is there a sanitizer / validator / escape between source and sink?

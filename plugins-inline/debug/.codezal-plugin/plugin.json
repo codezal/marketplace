@@ -1,0 +1,26 @@
+{
+  "name": "debug",
+  "version": "0.1.0",
+  "description": "Codezal-native debugging plugin. Diagnoses broken behavior by evidence, not guesswork — reproduce, isolate, root-cause, fix, regression-test. /debug is a fast triage of a single failure; /debug-deep is a hypothesis-driven root-cause investigation that maps the failure path with Code Map (code_trace/code_callers/code_callees) and proves the fix with a regression test. Project-agnostic: it learns your stack instead of assuming one.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Codezal",
+    "url": "https://github.com/codezal"
+  },
+  "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/debug",
+  "permissions": [
+    "filesystem.read",
+    "filesystem.write",
+    "shell.exec",
+    "git.exec",
+    "agents.register",
+    "commands.register"
+  ],
+  "contributes": {
+    "agents": ["agents/*.md"],
+    "commands": ["commands/*.md"]
+  },
+  "requires": {
+    "codezalMinVersion": "0.1.0"
+  }
+}

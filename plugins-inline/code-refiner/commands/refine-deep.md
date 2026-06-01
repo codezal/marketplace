@@ -19,8 +19,8 @@ If it is a file path: refine that ENTIRE file.
 
 REQUIRED ORDER:
 1. Discover the project's check commands (test runner, typecheck, build,
-   lint) per references/verification.md and run them as a BASELINE. Prefer
-   rtk wrappers if present.
+   lint) per references/verification.md and run them as a BASELINE via
+   `run_command` (Codezal compacts the shell output at the system level).
 2. If the baseline is red or there is no usable check, apply SAFE-tier
    moves only and state that behavior preservation is unverified.
 3. Apply moves across all lenses (control flow, duplication, dead code,

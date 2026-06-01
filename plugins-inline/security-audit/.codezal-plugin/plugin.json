@@ -1,6 +1,6 @@
 {
   "name": "security-audit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Codezal-native security auditor. Scans code for OWASP Top 10 / CWE vulnerabilities, secrets, and crypto weaknesses across TS/JS, Python, Ruby, Go, Rust, PHP.",
   "license": "Apache-2.0",
   "author": {
@@ -15,8 +15,12 @@
     "commands.register"
   ],
   "contributes": {
-    "agents": ["agents/*.md"],
-    "commands": ["commands/*.md"]
+    "agents": [
+      "agents/*.md"
+    ],
+    "commands": [
+      "commands/*.md"
+    ]
   },
   "requires": {
     "codezalMinVersion": "0.1.0"

@@ -2,7 +2,7 @@
   "version": 1,
   "name": "Codezal Marketplace",
   "description": "Codezal plugin index / registry — does not host binaries, only SHA-pinned references to upstream repositories.",
-  "updatedAt": "2026-05-31T00:00:00Z",
+  "updatedAt": "2026-06-01T00:00:00Z",
   "plugins": [
     {
       "id": "code-reviewer@codezal-curated",
@@ -31,6 +31,13 @@
       "channel": "codezal-curated",
       "verified": true,
       "manifestPath": "plugins/code-refiner.json"
+    },
+    {
+      "id": "debug@codezal-curated",
+      "name": "debug",
+      "channel": "codezal-curated",
+      "verified": true,
+      "manifestPath": "plugins/debug.json"
     }
   ]
 }

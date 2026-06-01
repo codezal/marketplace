@@ -85,6 +85,10 @@ produces its own list of findings:
 - Focus on large bugs: null/undefined deref, off-by-one, wrong operator,
   wrong type narrowing, races, leaks
 - SKIP anything a linter / typechecker would catch
+- To confirm a suspected bug is real before reporting it, you may use the
+  Code Map (`code_callers` / `code_callees` / `code_trace`) to see how the
+  changed symbol is actually called — this cuts false positives. Still report
+  only on changed lines; do not flag off-diff code.
 - Format: `path:line: 🐛 bug: <what breaks>. <fix>.`
 
 **P3 — Git blame + history**

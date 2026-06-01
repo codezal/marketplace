@@ -8,8 +8,8 @@ checks that cover the touched code — be honest about that in the report.
 
 Look, in order, for how this project verifies itself:
 
-1. **`CLAUDE.md` / `AGENTS.md`** — explicit test/build/lint commands (and any
-   `rtk` wrappers). Prefer these; they reflect the user's real workflow.
+1. **`CLAUDE.md` / `AGENTS.md`** — explicit test/build/lint commands. Prefer
+   these; they reflect the user's real workflow.
 2. **Manifest scripts** — `package.json` `scripts` (`test`, `typecheck`,
    `build`, `lint`), `Makefile` targets, `justfile`, `tox.ini`, `noxfile`.
 3. **Toolchain by ecosystem:**
@@ -22,8 +22,9 @@ Look, in order, for how this project verifies itself:
    | Java/Kotlin | `gradle compileJava` | `gradle test`, `mvn test` |
    | Ruby | — | `rspec`, `rake test` |
 
-Prefer `rtk`-wrapped forms when available (`rtk vitest`, `rtk tsc`,
-`rtk cargo test`, `rtk pytest`) — same checks, compact output.
+Run these plainly via `run_command`. Codezal filters noisy shell output —
+tests, build, lint, git — at the system level (Kompakt Shell), so you never
+need to wrap or trim the commands yourself.
 
 ## 2. Baseline before touching anything
 

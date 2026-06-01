@@ -1,6 +1,6 @@
 {
   "name": "code-refiner",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Codezal-native code simplification plugin. Refines recently changed code for clarity and maintainability while preserving behavior — verified, not assumed. /refine is a fast safe-only pass; /refine-deep is a multi-lens audit that proves behavior is unchanged via tests/typecheck before & after. Project-agnostic: detects your conventions instead of hardcoding them.",
   "channel": "codezal-curated",
   "verified": true,
@@ -33,5 +33,5 @@
   "requires": {
     "codezalMinVersion": "0.1.0"
   },
-  "signature": "yFVoJv8TSXmaxBkX9hQg4nFyyvJyH1qtcDHUuhEryVVtsplPK0GF38hGeL11+xAEYnb06FSnFbTwXe9/XHPTDQ=="
+  "signature": "0cJKOvZ2pGvzTQkVnXLNquRP2qjhpXKXv47QNFSAv9tlo0d2P+ZwsCXRNMvqdwxu8lZkiBRwjstNOb/+3a5mCA=="
 }

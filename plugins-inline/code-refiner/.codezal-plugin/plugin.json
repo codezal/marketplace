@@ -1,6 +1,6 @@
 {
   "name": "code-refiner",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Codezal-native code simplification plugin. Refines recently changed code for clarity and maintainability while preserving behavior — verified, not assumed. /refine is a fast safe-only pass; /refine-deep is a multi-lens audit that proves behavior is unchanged via tests/typecheck before & after. Project-agnostic: detects your conventions instead of hardcoding them.",
   "license": "Apache-2.0",
   "author": {
@@ -17,8 +17,12 @@
     "commands.register"
   ],
   "contributes": {
-    "agents": ["agents/*.md"],
-    "commands": ["commands/*.md"]
+    "agents": [
+      "agents/*.md"
+    ],
+    "commands": [
+      "commands/*.md"
+    ]
   },
   "requires": {
     "codezalMinVersion": "0.1.0"
