@@ -192,5 +192,17 @@
         "codezalMinVersion": { "type": "string" }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "description": "codezal-curated kanalındaki pluginler imzalı olmak zorunda.",
+      "if": {
+        "required": ["channel"],
+        "properties": { "channel": { "const": "codezal-curated" } }
+      },
+      "then": {
+        "required": ["signature"]
+      }
+    }
+  ]
 }

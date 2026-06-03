@@ -37,15 +37,23 @@ async function loadPrivateKey() {
 }
 
 async function signOne(key, manifestPath) {
-  const raw = await readFile(manifestPath, "utf8")
-  const manifest = JSON.parse(raw)
-  const canonical = canonicalManifest(manifest)
-  const data = new TextEncoder().encode(canonical)
-  const sig = await webcrypto.subtle.sign({ name: "Ed25519" }, key, data)
-  manifest.signature = Buffer.from(new Uint8Array(sig)).toString("base64")
-  // Pretty-print with trailing newline to match repo style.
-  await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n")
-  console.log(`signed: ${manifestPath}`)
+  // Tek dosyadaki hata (bozuk JSON, yazma hatası vb.) tüm --all batch'ini
+  // öldürmesin; hatayı raporla ve false dönerek devam et.
+  try {
+    const raw = await readFile(manifestPath, "utf8")
+    const manifest = JSON.parse(raw)
+    const canonical = canonicalManifest(manifest)
+    const data = new TextEncoder().encode(canonical)
+    const sig = await webcrypto.subtle.sign({ name: "Ed25519" }, key, data)
+    manifest.signature = Buffer.from(new Uint8Array(sig)).toString("base64")
+    // Pretty-print with trailing newline to match repo style.
+    await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n")
+    console.log(`signed: ${manifestPath}`)
+    return true
+  } catch (e) {
+    console.error(`error:  ${manifestPath} (${e.message})`)
+    return false
+  }
 }
 
 async function curatedManifests() {
@@ -55,8 +63,13 @@ async function curatedManifests() {
   for (const f of files) {
     if (!f.endsWith(".json")) continue
     const p = join(dir, f)
-    const m = JSON.parse(await readFile(p, "utf8"))
-    if (m.channel === "codezal-curated" && m.verified) out.push(p)
+    // Tek bozuk manifest, --all keşfini komple durdurmasın; atla ve raporla.
+    try {
+      const m = JSON.parse(await readFile(p, "utf8"))
+      if (m.channel === "codezal-curated" && m.verified) out.push(p)
+    } catch (e) {
+      console.error(`error:  ${p} (${e.message})`)
+    }
   }
   return out
 }
@@ -73,7 +86,11 @@ async function main() {
     console.error("Usage: node scripts/sign-plugin.mjs <manifest.json | --all>")
     process.exit(1)
   }
-  for (const t of targets) await signOne(key, t)
+  let allOk = true
+  for (const t of targets) {
+    if (!(await signOne(key, t))) allOk = false
+  }
+  process.exit(allOk ? 0 : 1)
 }
 
 main().catch((e) => {

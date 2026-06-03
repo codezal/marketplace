@@ -24,16 +24,23 @@ async function loadPublicKey() {
 }
 
 async function verifyOne(key, manifestPath) {
-  const manifest = JSON.parse(await readFile(manifestPath, "utf8"))
-  if (!manifest.signature) {
-    console.log(`MISSING  ${manifestPath}`)
+  // Tek dosyadaki hata (bozuk JSON, geçersiz imza vb.) tüm --all batch'ini
+  // öldürmesin; hatayı raporla ve false dönerek devam et.
+  try {
+    const manifest = JSON.parse(await readFile(manifestPath, "utf8"))
+    if (!manifest.signature) {
+      console.log(`MISSING  ${manifestPath}`)
+      return false
+    }
+    const data = new TextEncoder().encode(canonicalManifest(manifest))
+    const sig = Buffer.from(manifest.signature, "base64")
+    const ok = await webcrypto.subtle.verify({ name: "Ed25519" }, key, sig, data)
+    console.log(`${ok ? "VALID   " : "INVALID "} ${manifestPath}`)
+    return ok
+  } catch (e) {
+    console.log(`ERROR    ${manifestPath} (${e.message})`)
     return false
   }
-  const data = new TextEncoder().encode(canonicalManifest(manifest))
-  const sig = Buffer.from(manifest.signature, "base64")
-  const ok = await webcrypto.subtle.verify({ name: "Ed25519" }, key, sig, data)
-  console.log(`${ok ? "VALID   " : "INVALID "} ${manifestPath}`)
-  return ok
 }
 
 async function curatedManifests() {
