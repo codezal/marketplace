@@ -9,7 +9,9 @@
     "sign": "node scripts/sign-plugin.mjs",
     "sign:all": "node scripts/sign-plugin.mjs --all",
     "verify": "node scripts/verify-plugin.mjs",
-    "verify:all": "node scripts/verify-plugin.mjs --all"
+    "verify:all": "node scripts/verify-plugin.mjs --all",
+    "build:registry": "node scripts/build-registry.mjs",
+    "check:registry": "node scripts/build-registry.mjs --check"
   },
   "license": "Apache-2.0"
 }

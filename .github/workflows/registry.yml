@@ -1,0 +1,63 @@
+# Marketplace registry CI.
+#
+# index.json / manifest / schema değişince: şema doğrula → registry.json yeniden
+# üret → değiştiyse bot olarak commit et. registry.json yalnız website'in tükettiği
+# türetilmiş katalog; uygulama bunu OKUMAZ (index.json + plugins/*.json okur), bu
+# yüzden bu akış uygulamayı etkilemez.
+#
+# Not: Ed25519 imza doğrulaması burada YOK — public key repo'da değil (.keys/
+# gitignore'lu, key app'e gömülü). İmza maintainer'da `npm run verify:all` ile ve
+# app'in install kapısında doğrulanır.
+name: registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.json"
+      - "plugins/**"
+      - "schemas/**"
+      - "scripts/build-registry.mjs"
+
+permissions:
+  contents: write
+
+# Aynı anda tek koşu — art arda push'larda registry commit yarışını önle.
+concurrency:
+  group: registry-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Şema doğrula — index + her plugin manifest'i. ajv-formats: date-time/uri/email.
+      - name: Validate schemas
+        run: |
+          npx --yes -p ajv-cli@5 -p ajv-formats@3 ajv validate \
+            -c ajv-formats -s schemas/marketplace.schema.json -d index.json --strict=false
+          npx --yes -p ajv-cli@5 -p ajv-formats@3 ajv validate \
+            -c ajv-formats -s schemas/plugin.schema.json -d "plugins/*.json" --strict=false
+
+      # registry.json'ı manifest'lerden yeniden üret.
+      - name: Build registry
+        run: npm run build:registry
+
+      # Değiştiyse bot commit. [skip ci] → bu commit workflow'u yeniden tetiklemez.
+      - name: Commit registry.json
+        run: |
+          if git diff --quiet -- registry.json; then
+            echo "registry.json güncel — commit yok."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add registry.json
+            git commit -m "chore: registry.json otomatik güncelle [skip ci]"
+            git push
+          fi

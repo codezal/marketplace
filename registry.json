@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "name": "Codezal Marketplace",
+  "description": "Codezal plugin index / registry — does not host binaries, only SHA-pinned references to upstream repositories.",
+  "updatedAt": "2026-06-01T00:00:00Z",
+  "plugins": [
+    {
+      "name": "code-reviewer",
+      "version": "0.2.2",
+      "description": "Codezal code-review plugin. /review is a quick single-pass review; /review-deep is a multi-perspective audit with confidence scoring, CLAUDE.md compliance, git history, and (optional) PR comment posting.",
+      "channel": "codezal-curated",
+      "verified": true,
+      "license": "Apache-2.0",
+      "author": "Codezal",
+      "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/code-reviewer"
+    },
+    {
+      "name": "security-audit",
+      "version": "0.1.1",
+      "description": "Codezal-native security auditor. /security is a fast pattern-based scan with CWE + OWASP mapping; /security-deep is a multi-perspective audit with dataflow, git history, and threat model. Read-only.",
+      "channel": "codezal-curated",
+      "verified": true,
+      "license": "Apache-2.0",
+      "author": "Codezal",
+      "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/security-audit"
+    },
+    {
+      "name": "frontend-craft",
+      "version": "0.1.0",
+      "description": "Codezal-native frontend design plugin. Builds distinctive, production-grade UI that avoids generic AI aesthetics, with accessibility, responsiveness, performance, and a self-review rubric baked in. /ui builds from a brief, /redesign elevates existing UI, /design-review critiques against the rubric.",
+      "channel": "codezal-curated",
+      "verified": true,
+      "license": "Apache-2.0",
+      "author": "Codezal",
+      "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/frontend-craft"
+    },
+    {
+      "name": "code-refiner",
+      "version": "0.1.1",
+      "description": "Codezal-native code simplification plugin. Refines recently changed code for clarity and maintainability while preserving behavior — verified, not assumed. /refine is a fast safe-only pass; /refine-deep is a multi-lens audit that proves behavior is unchanged via tests/typecheck before & after. Project-agnostic: detects your conventions instead of hardcoding them.",
+      "channel": "codezal-curated",
+      "verified": true,
+      "license": "Apache-2.0",
+      "author": "Codezal",
+      "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/code-refiner"
+    },
+    {
+      "name": "debug",
+      "version": "0.1.0",
+      "description": "Codezal-native debugging plugin. Diagnoses broken behavior by evidence, not guesswork — reproduce, isolate, root-cause, fix, regression-test. /debug is a fast triage of a single failure; /debug-deep is a hypothesis-driven root-cause investigation that maps the failure path with Code Map (code_trace/code_callers/code_callees) and proves the fix with a regression test. Project-agnostic: it learns your stack instead of assuming one.",
+      "channel": "codezal-curated",
+      "verified": true,
+      "license": "Apache-2.0",
+      "author": "Codezal",
+      "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/debug"
+    }
+  ]
+}
