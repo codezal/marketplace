@@ -2,3 +2,5 @@
 # embedded in the Codezal app (src/lib/plugins/signing.ts).
 .keys/
 node_modules/
+.DS_Store
+.codezal/
