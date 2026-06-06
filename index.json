@@ -38,6 +38,13 @@
       "channel": "codezal-curated",
       "verified": true,
       "manifestPath": "plugins/debug.json"
+    },
+    {
+      "id": "code-cleaner@codezal-curated",
+      "name": "code-cleaner",
+      "channel": "codezal-curated",
+      "verified": true,
+      "manifestPath": "plugins/code-cleaner.json"
     }
   ]
 }

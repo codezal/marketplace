@@ -1,0 +1,36 @@
+{
+  "name": "code-cleaner",
+  "version": "0.1.0",
+  "description": "Codezal-native dead-code & cruft finder. Read-only: it reports unused code, imports, dependencies, and duplication with a confidence tier per finding and never edits or deletes. /clean is a fast, scoped scan of high-confidence cruft; /clean-deep is a repo-wide audit (dead code, circular deps, duplication, complexity) with a safest-first removal plan. Language-agnostic: it confirms every finding against the Code Map instead of guessing.",
+  "channel": "codezal-curated",
+  "verified": true,
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Codezal",
+    "url": "https://github.com/codezal"
+  },
+  "upstream": "https://github.com/codezal/marketplace/tree/main/plugins-inline/code-cleaner",
+  "permissions": [
+    "filesystem.read",
+    "shell.exec",
+    "git.exec",
+    "agents.register",
+    "commands.register"
+  ],
+  "contributes": {
+    "agents": [
+      "agents/*.md"
+    ],
+    "commands": [
+      "commands/*.md"
+    ]
+  },
+  "source": {
+    "type": "inline",
+    "path": "plugins-inline/code-cleaner"
+  },
+  "requires": {
+    "codezalMinVersion": "0.1.0"
+  },
+  "signature": "Weg2XJH/rJx747FlV8pwTMfjpe3WtuVPjZRetg8PX1VmQH/7wWlD676aXKsyeqYy8qLVDtzB95ROpxrwRVr1DQ=="
+}
